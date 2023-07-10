@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  mysql8master:
+    image: mysql:8
+    container_name: mysql8master
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: NykArNq1
+      MYSQL_USER: super_user
+      MYSQL_PASSWORD: NykArNq
+      MYSQL_DATABASE: super_db
+    volumes:
+      - mysqlmaster:/var/lib/mysql
+      - /etc/mysql-master:/etc/mysql/conf.d
+    networks:
+      - app-network
+    ports:
+      - "3307:3306"
+  mysql8slave:
+    image: mysql:8
+    container_name: mysql8slave
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: NykArNq1
+    volumes:
+      - mysqlslave:/var/lib/mysql
+      - /etc/mysql-slave:/etc/mysql/conf.d
+    networks:
+      - app-network
+    ports:
+      - "3308:3306"
+volumes:
+  mysqlmaster:
+  mysqlslave:
+networks:
+  app-network:
+    driver: bridge
+
