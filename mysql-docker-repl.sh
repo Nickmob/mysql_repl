@@ -21,13 +21,13 @@ GRANT REPLICATION SLAVE ON *.* TO repl@'%';
 docker exec -ti mysql8slave sh -c 'exec mysql -u root -p'
 
 # необходимо получить публичный ключ
-STOP SLAVE;
-CHANGE MASTER TO MASTER_HOST='mysql8master', MASTER_USER='repl', MASTER_PASSWORD='Slave#2023', MASTER_AUTO_POSITION = 1, GET_MASTER_PUBLIC_KEY = 1;
-START SLAVE;
+STOP REPLICA;
+CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql8master', SOURCE_USER='repl', SOURCE_PASSWORD='Slave#2023', SOURCE_AUTO_POSITION = 1, GET_SOURCE_PUBLIC_KEY = 1;
+START REPLICA;
 
 show warnings;
 
-show slave status\G
+show replica status\G
 
 show global variables like 'gtid_executed';
 
