@@ -1,15 +1,9 @@
-version: '3'
-
 services:
   mysql8master:
     image: mysql:8.4
     container_name: mysql8master
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: NykArNq1
-      MYSQL_USER: super_user
-      MYSQL_PASSWORD: NykArNq
-      MYSQL_DATABASE: super_db
+    env_file: .env
     volumes:
       - mysqlmaster:/var/lib/mysql
       - /etc/mysql-master:/etc/mysql/conf.d
@@ -21,8 +15,7 @@ services:
     image: mysql:8.4
     container_name: mysql8slave
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: NykArNq1
+    env_file: .env
     volumes:
       - mysqlslave:/var/lib/mysql
       - /etc/mysql-slave:/etc/mysql/conf.d
@@ -36,4 +29,3 @@ volumes:
 networks:
   app-network:
     driver: bridge
-
